@@ -1,7 +1,7 @@
 import React from 'react'
-// import {loadStripe} from '@stripe/stripe-js'  
+import {loadStripe} from '@stripe/stripe-js'  
 
-// const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY)
+const stripePromise = loadStripe('pk_test_51R7NAHRZ8fk0kmGaRoeYrHGZhH4whhjyEiUcmDbbbUWjoF01rn47MvxgL2eGZ5CBLMqTZVnDSPVqcgwsWxnR0Oze00ACvxYbov')
 
 const Checkout = () => {
 
@@ -12,8 +12,12 @@ const Checkout = () => {
         headers: {
           'Content-Type': 'application/json',
         },
+      });      
+      
+      const stripe = await stripePromise;
+      await stripe.redirectToCheckout({
+        sessionId: (await response.json()).id,
       });
-      const session = await response.json();
     } catch (error) {
       console.error('Error during checkout:', error);
       alert('An error occurred during checkout. Please try again later.');
