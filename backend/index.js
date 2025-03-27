@@ -15,18 +15,25 @@ app.get('/', (req, res) => {
 });   
 
 app.post('/checkout', async (req, res) => {
-  const session = await stripe.checkout.sessions.create({
-    payment_method_types: ['card'],
-    line_items: [
-      {
-        price: 'price_1R7NWURZ8fk0kmGaE4ewIU8S',
-        quantity: 1,
-      },
-    ],
-    mode: 'payment',
-    success_url: `http://localhost:3000/success`,
-    cancel_url: `http://localhost:3000/cancel`,
-  });
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price: 'price_1R7NWURZ8fk0kmGaE4ewIU8S',
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      success_url: `http://localhost:3000/success`,
+      cancel_url: `http://localhost:3000/cancel`,
+    });
+
+    return res.json(session);
+  } catch (error) {
+    console.error('Error creating checkout session:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
 app.get('/success', (req, res) => {
