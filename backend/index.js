@@ -26,6 +26,7 @@ app.post('/checkout', async (req, res) => {
         {
           price: 'price_1R7NWURZ8fk0kmGaE4ewIU8S',
           quantity: 1,
+       
         },
       ],
       mode: 'payment',

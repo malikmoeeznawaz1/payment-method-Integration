@@ -16,7 +16,7 @@ const Checkout = () => {
       
       const stripe = await stripePromise;
       await stripe.redirectToCheckout({
-        sessionId: (await response.json()).id,
+        sessionId: (await response.json()).id,  
       });
     } catch (error) {
       console.error('Error during checkout:', error);
